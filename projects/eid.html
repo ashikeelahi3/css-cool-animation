@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Eid Animation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; 
+        }
+        body {
+            overflow: hidden;
+        }
+
+        #eid_section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #222;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 5em;
+            user-select: none;
+            text-align: center;
+        }
+
+        i {
+            position: absolute;
+            background: #fff;
+            pointer-events: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: eid_spark 2s ease-out forwards;
+        }
+        @keyframes eid_spark {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--randomX), var(--randomY));
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="eid_section">
+        <h2>Eid Mubarak</h2>
+    </section>
+
+    <script>
+        let eidSection = document.querySelector('#eid_section')
+        let h2 = document.querySelector('h2')
+        eidSection.addEventListener('click', function(event) {
+            for(let i = 0; i < 50; i++) {
+                let spark = document.createElement('i');
+                spark.style.top = (event.clientY - eidSection.offsetTop) + 'px'
+                spark.style.left = (event.clientX - eidSection.offsetLeft) + 'px'
+                let randomX = (Math.random() - 0.5) * window.innerWidth / 1.5;
+                let randomY = (Math.random() - 0.5) * window.innerHeight / 1.5;
+                spark.style.setProperty('--randomX', randomX + 'px')
+                spark.style.setProperty('--randomY', randomY + 'px')
+                
+                let randomSize = Math.random() * 30 + 2
+                spark.style.height = randomSize + 'px'
+                spark.style.width = randomSize + 'px'
+                let duration = Math.random() * 2 + 0.5;
+                spark.style.animation = `eid_spark ${duration}s ease-out forwards`
+
+                // Change color
+                let colors = ["#f4034c", "#fff", "#ffeb3b", "#03a9f4"]
+                let randomColor = colors[Math.floor(Math.random() * colors.length)]
+                spark.style.background = randomColor
+                h2.style.color = randomColor
+                
+                eidSection.appendChild(spark)
+
+                setTimeout(function() {
+                    spark.remove();
+                }, 2000)
+            }
+        })
+    </script>
+</body>
+</html>
